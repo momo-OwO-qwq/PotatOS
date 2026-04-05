@@ -1,0 +1,37 @@
+---
+title: 欢迎来到 PotatOS！
+description: 在这里开启你的旅程~
+template: splash
+hero:
+  tagline: 一个为生电与术力口打造的 Minecraft 服务器
+  image:
+    file: ../../assets/potato.png
+  actions:
+    - text: 开始冒险
+      link: /introduction/introduction
+      icon: right-arrow
+    - text: 服务器规则
+      link: /introduction/rules
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import LinkCard from '../../components/LinkCard.astro';
+
+## 快速导航
+
+<CardGrid>
+	<LinkCard title="服务器介绍" icon="pencil" href="/introduction/introduction/">
+		了解服务器基本信息，如历史、玩法、生电机器用法等。
+	</LinkCard>
+	<LinkCard title="公告与活动" icon="add-document" href="/announcement/announcement">
+		获取服务器最新消息、日志、事件。
+	</LinkCard>
+	<LinkCard title="社区与支持" icon="setting" href="/community/community">
+		加入我们的 QQ 群，在这里反馈问题或者寻找帮助。
+	</LinkCard>
+	<LinkCard title="帮助文档" icon="open-book" href="/help/help">
+		各类机器用法，服务器铁路线路图等详细帮助。
+	</LinkCard>
+</CardGrid>

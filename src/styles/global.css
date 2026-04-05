@@ -1,0 +1,206 @@
+@layer theme, base, components, utilities;
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+/* 暗色主题 */
+:root {
+    --sl-color-accent-low: #131e4f;
+	--sl-color-accent: #3447ff;
+	--sl-color-accent-high: #b3c7ff;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #edeeef;
+	--sl-color-gray-2: #c1c2c4;
+	--sl-color-gray-3: #8a8b8f;
+	--sl-color-gray-4: #57585b;
+	--sl-color-gray-5: #37383b;
+	--sl-color-gray-6: #262729;
+	--sl-color-black: #181819;
+    --sl-color-bg-nav: rgba(0, 0, 0, 0.14);
+    --purple-hsl: 255, 60%, 60%;
+    --overlay-blurple: hsla(var(--purple-hsl), 0.2);
+}
+/* 亮色主题 */
+:root[data-theme="light"] {
+    --sl-color-accent-low: #c7d6ff;
+	--sl-color-accent: #364bff;
+	--sl-color-accent-high: #182775;
+	--sl-color-white: #181819;
+	--sl-color-gray-1: #262729;
+	--sl-color-gray-2: #37383b;
+	--sl-color-gray-3: #57585b;
+	--sl-color-gray-4: #8a8b8f;
+	--sl-color-gray-5: #c1c2c4;
+	--sl-color-gray-6: #edeeef;
+	--sl-color-gray-7: #f6f6f7;
+	--sl-color-black: #ffffff;
+    --sl-color-bg-nav: rgba(255, 255, 255, 0.14);
+    --purple-hsl: 255, 85%, 65%;
+    --sl-hue-accent: 350;
+}
+
+/* 首页动态星尘背景 */
+@layer components {
+    [data-has-hero] .page {
+        /* 1.基底深色渐变 */
+        background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
+        background-image:
+            /* 星尘网格点阵 */
+            repeating-radial-gradient(circle at 20% 30%, rgba(255,255,200,0.03) 0px, rgba(255,255,200,0.02) 2px, transparent 2px, transparent 6px),
+            /* 十字线 */
+            linear-gradient(to right, rgba(80, 150, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(80, 150, 255, 0.08) 1px, transparent 1px),
+            /* 暖色侧光晕 */
+            radial-gradient(circle at 70% 20%, rgba(255, 180, 80, 0.12) 0%, rgba(0,0,0,0) 50%),
+            /* 冷色底光晕 */
+            radial-gradient(circle at 15% 85%, rgba(0, 200, 255, 0.1) 0%, rgba(0,0,0,0) 55%),
+            /* 流动斜向极光带 */
+            repeating-linear-gradient(115deg,
+                transparent 0%,
+                transparent 40%,
+                rgba(200, 180, 255, 0.04) 45%,
+                rgba(120, 220, 255, 0.07) 50%,
+                rgba(200, 180, 255, 0.04) 55%,
+                transparent 60%,
+                transparent 100%),
+            /* 边缘暗角 */
+            radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.4) 90%);
+        background-size:
+            8px 8px,
+            40px 40px,
+            40px 40px,
+            100% 100%,
+            100% 100%,
+            250% 250%,
+            100% 100%;
+        background-repeat: repeat, repeat, repeat, no-repeat, no-repeat, repeat, no-repeat;
+        background-attachment: scroll, scroll, scroll, scroll, scroll, scroll, scroll;
+        /* 极光漂流动画（仅斜向条纹移动） */
+        animation: auroraDrift 22s linear infinite;
+    }
+
+    /* 2. 呼吸光晕球体 */
+    [data-has-hero] {
+        position: relative;
+        /* 清除原背景，避免重叠 */
+        background: transparent;
+    }
+
+    [data-has-hero]::before,
+    [data-has-hero]::after {
+        content: '';
+        position: fixed;
+        pointer-events: none;
+        z-index: -1;
+        border-radius: 50%;
+        filter: blur(70px);
+        mix-blend-mode: screen;
+        will-change: transform, opacity;
+    }
+
+    [data-has-hero]::before {
+        top: 20%;
+        right: -5%;
+        width: 85vmax;
+        height: 85vmax;
+        background: radial-gradient(circle at center,
+            rgba(255, 200, 100, 0.65) 0%,
+            rgba(255, 120, 40, 0.4) 35%,
+            rgba(255, 60, 0, 0.15) 65%,
+            transparent 85%);
+        animation: breatheGlow1 14s ease-in-out infinite alternate;
+    }
+
+    [data-has-hero]::after {
+        bottom: -10%;
+        left: -8%;
+        width: 90vmax;
+        height: 90vmax;
+        background: radial-gradient(circle at center,
+            rgba(80, 210, 255, 0.6) 0%,
+            rgba(40, 100, 255, 0.35) 40%,
+            rgba(120, 40, 200, 0.2) 65%,
+            transparent 85%);
+        animation: breatheGlow2 18s ease-in-out infinite alternate;
+    }
+
+    /* 3. 玻璃态头部导航栏 */
+    [data-has-hero] header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background-color: rgba(10, 12, 21, 0.65);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+
+    /* 4. Hero 图片互动效果（悬停缩放 + 光晕增强 + 平滑过渡） */
+    [data-has-hero] .hero > img {
+        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        cursor: pointer;
+        border-radius: 1rem;
+        will-change: transform, filter;
+        /* 初始柔和阴影 */
+        filter: drop-shadow(0 0 0.9rem hwb(0 27% 73% / 0.614));
+    }
+
+    /* 图片悬停互动：放大 + 增强发光 + 轻微上浮 */
+    [data-has-hero] .hero > img:hover {
+        transform: scale(1.03) translateY(-6px);
+        filter: drop-shadow(0 0 3.5rem rgba(242, 222, 72, 0.53))
+                drop-shadow(0 0 0.5rem rgba(94, 90, 34, 0.6));
+    }
+
+    /* 可选：图片获得焦点（键盘或点击时）保持互动反馈 */
+    [data-has-hero] .hero > img:focus-visible {
+        outline: 2px solid rgba(138, 92, 246, 0.8);
+        transform: scale(1.02);
+        transition: all 0.2s;
+    }
+
+    /* 动画关键帧（保持原有） */
+    @keyframes breatheGlow1 {
+        0% { transform: scale(0.92) translate(0%, 0%); opacity: 0.7; filter: blur(65px); }
+        50% { transform: scale(1.05) translate(2%, -3%); opacity: 0.95; filter: blur(80px); }
+        100% { transform: scale(0.98) translate(-1%, 2%); opacity: 0.8; filter: blur(72px); }
+    }
+
+    @keyframes breatheGlow2 {
+        0% { transform: scale(0.88) translate(0%, 0%); opacity: 0.65; filter: blur(75px); }
+        60% { transform: scale(1.1) translate(-3%, 4%); opacity: 0.9; filter: blur(90px); }
+        100% { transform: scale(0.95) translate(2%, -2%); opacity: 0.75; filter: blur(78px); }
+    }
+
+    @keyframes auroraDrift {
+        0% {
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0% 0%, 0 0;
+        }
+        50% {
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 100% 50%, 0 0;
+        }
+        100% {
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 200% 100%, 0 0;
+        }
+    }
+
+    /* 移动端适配（光晕尺寸微调，保证性能） */
+    @media (max-width: 768px) {
+        [data-has-hero]::before {
+            width: 120vmax;
+            height: 120vmax;
+            filter: blur(60px);
+            right: -20%;
+        }
+        [data-has-hero]::after {
+            width: 130vmax;
+            height: 130vmax;
+            filter: blur(70px);
+            left: -25%;
+        }
+        /* 移动端图片缩放略减，避免布局挤压 */
+        [data-has-hero] .hero > img:hover {
+            transform: scale(1.02) translateY(-3px);
+        }
+    }
+}
