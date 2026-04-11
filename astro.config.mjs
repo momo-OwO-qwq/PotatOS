@@ -15,6 +15,8 @@ export default defineConfig({
 			title: 'potatos',
 			favicon: '/src/assets/potato.png',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+            defaultLocale: 'root',
+            locales: {root: { label: '简体中文', lang: 'zh-CN',},},
 			sidebar: [
 				{
 					label: '介绍',
