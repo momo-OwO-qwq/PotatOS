@@ -1,6 +1,6 @@
 ---
-title: 服务器管理规则
-description: 此页为服务器规则
+title: 服务器规则
+description: 服务器规则
 ---
 
 ## 一、财产保护

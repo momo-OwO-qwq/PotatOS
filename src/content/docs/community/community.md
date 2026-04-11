@@ -1,7 +1,6 @@
 ---
 title: QQ 群
-description: A guide in my new Starlight docs site.
----
+description: QQ 群
 :::note[注意]
 此为 PotatOS 审查群：
 

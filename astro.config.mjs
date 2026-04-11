@@ -29,6 +29,8 @@ export default defineConfig({
 					label: '公告',
 					items: [
 						{ label: '公告', slug: 'announcement/announcement' },
+						{ label: '日志', slug: 'announcement/log/log' },
+
 					],
 				},
 				{

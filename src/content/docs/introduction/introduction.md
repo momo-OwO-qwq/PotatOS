@@ -1,4 +1,4 @@
 ---
-title: 介绍
-description: A guide in my new Starlight docs site.
+title: 服务器简介
+description: 服务器简介
 ---
