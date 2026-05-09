@@ -3,7 +3,7 @@
 基于 [Astro](https://astro.build) + [Starlight](https://starlight.astro.build) 构建的 Minecraft 服务器官方网站。  
 为 **PotatOS** 服务器提供文档、公告、玩法介绍、成员指南等模块化内容展示。
 
-网站：potatos.090425.xyz:27
+网站：potatos.090425.xyz:67
 
 qq群：897457743
 
