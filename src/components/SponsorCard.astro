@@ -1,0 +1,128 @@
+---
+export interface Sponsor {
+  name?: string;        // 可选，若不提供则显示为 qid（或 "?"）
+  amount: number;
+  qid: string;
+}
+
+const { items } = Astro.props as { items: Sponsor[] };
+
+// 头像地址
+function getAvatarUrl(qid: string): string {
+  if (qid === "default") {
+    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e2e8f0'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%2394a3b8' font-size='40' font-family='sans-serif'%3E?%3C/text%3E%3C/svg%3E";
+  }
+  return `https://q1.qlogo.cn/g?b=qq&nk=${qid}&s=100`;
+}
+
+// 补全 name（未提供时用 qid 或 "?" 回退），并按金额降序排列
+const displayItems = items
+  .map((sponsor) => ({
+    ...sponsor,
+    name: sponsor.name || (sponsor.qid === "default" ? "?" : sponsor.qid),
+  }))
+  .sort((a, b) => b.amount - a.amount);
+---
+
+<div class="sponsor-wrapper">
+  <div class="sponsor-grid">
+    {displayItems.map((sponsor) => (
+      <div class="sponsor-card">
+        <img
+          class="avatar"
+          src={getAvatarUrl(sponsor.qid)}
+          alt={sponsor.name}
+          width="48"
+          height="48"
+          loading="lazy"
+        />
+        <div class="info">
+          <span class="name" title={sponsor.name}>{sponsor.name}</span>
+          <span class="amount">¥{sponsor.amount}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .sponsor-wrapper {
+    display: contents;
+  }
+
+  .sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 180px);
+    grid-auto-rows: 80px;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0 0 0;
+    padding: 0;
+  }
+
+  .sponsor-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--card-bg, #f8fafc);
+    border: 1px solid var(--card-border, #e2e8f0);
+    border-radius: 12px;
+    padding: 0 1rem;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0 !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .sponsor-card:first-child,
+  .sponsor-card:last-child {
+    margin: 0 !important;
+  }
+
+  .sponsor-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: var(--text-primary, #1e293b);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .amount {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #64748b);
+    line-height: 1;
+  }
+
+  :global([data-theme="dark"]) .sponsor-card {
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+  }
+</style>

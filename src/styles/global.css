@@ -1,9 +1,8 @@
 @layer theme, base, components, utilities;
 
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
+
+@media (min-width: 100rem) {
+    :root { --sl-content-width: 64rem; }
 }
 
 /* 暗色主题 */

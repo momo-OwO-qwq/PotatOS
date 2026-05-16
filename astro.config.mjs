@@ -43,9 +43,9 @@ export default defineConfig({
           ],
         },
         {
-          label: '帮助',
+          label: '赞助',
           items: [
-            { label: '帮助', slug: 'help/help' },
+            { label: '赞助', slug: 'about/sponsor' },
           ],
         },
       ],
